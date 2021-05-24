@@ -1,2 +1,4 @@
 #Exclude build directory
-/build
+build/
+#Exclude Vscode dir
+.vscode/
