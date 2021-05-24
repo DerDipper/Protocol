@@ -14,4 +14,5 @@
 
 #include <stddef.h>
 
-#define BUFFER_DEFINE(TYPE) struct { TYPE* values; size_t size;}
+#define BUFFER_DEFINE(TYPE) struct { TYPE * values; size_t size;}
+#define BUFFER_INITIALIZE(NAME) { (NAME), sizeof(NAME)/sizeof((NAME)[1]) }

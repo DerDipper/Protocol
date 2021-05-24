@@ -62,7 +62,7 @@ StateMachine_State states[] = {
 };
 
 
-StateMachine_Config config = {{transitions, 9}, {states, 5}, ONEWIREPROTOCOLSTATE_INIT};
+StateMachine_Config config = {BUFFER_INITIALIZE(transitions), BUFFER_INITIALIZE(states), ONEWIREPROTOCOLSTATE_INIT};
 
 int main(void)
 {
