@@ -34,6 +34,8 @@ static StateMachine_State* getState(StateMachine* handle, uint32_t state);
 
 static bool isTransition(StateMachine_Transition* pTransition, uint32_t currentState, uint32_t event);
 
+static StateMachine_Ret executeIfSet(pFuncStateMachineExec pFoo, void* pComponent);
+
 /* Implementation of Interface */
 
 extern StateMachine_Handle StateMachine_init(const StateMachine_Config* pConfig, void* pComponent)
@@ -46,7 +48,7 @@ extern StateMachine_Handle StateMachine_init(const StateMachine_Config* pConfig,
 
     handle->currentState = getState(handle, pConfig->initialState);
 
-    handle->currentState->entry(pComponent);
+    executeIfSet(handle->currentState->entry, pComponent);
 
     return handle;
 }
@@ -64,11 +66,11 @@ extern StateMachine_Ret StateMachine_react(StateMachine_Handle handle, uint32_t 
         }
     }
 
-    retVal = handle->currentState->exit(handle->pComponent);
+    retVal = executeIfSet(handle->currentState->exit, handle->pComponent);
     if(STATEMACHINE_RET_OK == retVal)
     {
         handle->currentState = getState(handle, pTransition->destinationState);
-        retVal = handle->currentState->entry(handle->pComponent);
+        retVal = executeIfSet(handle->currentState->entry, handle->pComponent);
     }
 
     return retVal;
@@ -116,3 +118,18 @@ static bool isTransition(StateMachine_Transition* pTransition, uint32_t currentS
     return retVal;
 }
 
+static StateMachine_Ret executeIfSet(pFuncStateMachineExec pFoo, void* pComponent)
+{
+    StateMachine_Ret retVal = STATEMACHINE_RET_FAIL;
+
+    if(NULL != pFoo)
+    {
+        retVal = pFoo(pComponent);
+    }
+    else
+    {
+        retVal = STATEMACHINE_RET_OK;
+    }
+
+    return retVal;
+}
