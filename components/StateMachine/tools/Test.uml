@@ -1,0 +1,28 @@
+@startuml
+[*] --> Init
+Init --> Idle : Init_Finished
+Idle --> Transmitting : Transmit
+Idle --> Receiving : Listen_Request
+Receiving --> Idle : Paket_Finished
+Transmitting --> Idle : Paket_Finished
+Idle --> Init : Error_Occurred
+Receiving --> Init : Error_Occurred
+Transmitting --> Init : Error_Occurred
+
+Init : (entry) entry
+Init : (do) do
+Init : (exit) exit
+
+Idle : (entry) entry
+Idle : (do) do
+Idle : (exit) exit
+
+Receiving : (entry) entry
+Receiving : (do) do
+Receiving : (exit) exit
+
+Transmitting : (entry) entry
+Transmitting : (do) do
+Transmitting : (exit) exit
+
+@enduml

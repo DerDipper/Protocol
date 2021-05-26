@@ -2,3 +2,5 @@
 build/
 #Exclude Vscode dir
 .vscode/
+#Exlude pyc
+__pycache__/
